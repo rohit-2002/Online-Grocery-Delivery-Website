@@ -4,7 +4,7 @@ import User from "../models/User.js";
 export const updateCart = async (req, res) => {
   try {
     const { cartItems } = req.body;
-    const userId = req.userId;
+    const userId = req.userId; // ✅ Use from authUser middleware
 
     await User.findByIdAndUpdate(userId, { cartItems });
 
