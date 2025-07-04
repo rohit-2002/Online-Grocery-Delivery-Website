@@ -20,7 +20,10 @@ app.post("/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://freshbasket-backend.vercel.app",
+];
 app.use(
   cors({
     origin: allowedOrigins,
