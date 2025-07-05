@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppContext";
 import { Link, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import ProductCard from "../components/ProductCard";
-const ProductDetails = () => {
+const ProductDetails = () => { 
   const { products, navigate, currency, addToCart } = useAppContext();
   const { id } = useParams();
   const [relatedProducts, setRelatedProducts] = useState([]);
