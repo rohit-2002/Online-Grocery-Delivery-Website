@@ -21,22 +21,11 @@ import { stripeWebhooks } from "./controllers/orderController.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-// ✅ Stripe webhook needs raw body
-app.post(
-  "/api/order/stripe/webhook",
-  express.raw({ type: "application/json" }),
-  stripeWebhooks
-);
-
-// ✅ Normal middlewares (after webhook raw body route)
-app.use(express.json());
-app.use(cookieParser());
-
+// ✅ CORS
 const allowedOrigins = [
   "http://localhost:5173",
   "https://freshbasket-frontend-seven.vercel.app",
 ];
-
 app.use(
   cors({
     origin: allowedOrigins,
@@ -44,22 +33,33 @@ app.use(
   })
 );
 
-// ✅ Start server
+// ✅ Stripe webhook: MUST be before express.json()
+app.post(
+  "/api/order/stripe/webhook",
+  express.raw({ type: "application/json" }),
+  stripeWebhooks
+);
+
+// ✅ Then parse JSON and cookies
+app.use(express.json());
+app.use(cookieParser());
+
+// ✅ REST API routes
+app.use("/api/user", userRouter);
+app.use("/api/seller", sellerRouter);
+app.use("/api/product", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/address", addressRouter);
+app.use("/api/order", orderRouter);
+app.use("/api", contactRoute);
+
+// ✅ Server and DB start
 const startServer = async () => {
   try {
     await connectDB();
     await connectCloudinary();
 
     app.get("/", (req, res) => res.send("API is Working"));
-
-    // ✅ REST API routes
-    app.use("/api/user", userRouter);
-    app.use("/api/seller", sellerRouter);
-    app.use("/api/product", productRouter);
-    app.use("/api/cart", cartRouter);
-    app.use("/api/address", addressRouter);
-    app.use("/api/order", orderRouter);
-    app.use("/api", contactRoute);
 
     app.listen(port, () =>
       console.log(`✅ Server running at: http://localhost:${port}`)

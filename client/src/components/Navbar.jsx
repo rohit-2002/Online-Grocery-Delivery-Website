@@ -49,12 +49,12 @@ const Navbar = () => {
       <div className="hidden sm:flex items-center gap-8">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/products">All Products</NavLink>
-        <NavLink
+        {/* <NavLink
           to="/seller"
           className="flex items-center gap-2 hover:text-primary"
         >
           Seller
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/contact">Contact</NavLink>
 
         <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">

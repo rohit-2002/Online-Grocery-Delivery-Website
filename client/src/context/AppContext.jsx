@@ -22,9 +22,7 @@ export const AppContextProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get("/api/user/is-auth", {
-        withCredentials: true,
-      });
+      const { data } = await axios.get("/api/user/is-auth");
       if (data.success) {
         setUser(data.user);
         setCartItems(data.user.cartItems || {});
@@ -40,7 +38,11 @@ export const AppContextProvider = ({ children }) => {
   const fetchSeller = async () => {
     try {
       const { data } = await axios.get("/api/seller/is-auth");
-      setIsSeller(data.success);
+      if (data.success) {
+        setIsSeller(true);
+      } else {
+        setIsSeller(false);
+      }
     } catch (error) {
       console.error("Seller auth check failed:", error.message);
       setIsSeller(false);
