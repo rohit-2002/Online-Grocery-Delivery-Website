@@ -24,7 +24,7 @@ const port = process.env.PORT || 4000;
 // ✅ CORS
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://freshbasket-frontend-seven.vercel.app",
+  "https://freshbasket-frontend-bice.vercel.app",
 ];
 app.use(
   cors({
